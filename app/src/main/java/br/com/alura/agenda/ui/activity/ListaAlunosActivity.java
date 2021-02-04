@@ -35,8 +35,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_alunos);
         configuraFabNovoAluno();
         configuraLista();
-        dao.salva(new Aluno("Aluno1","1223131","aluano1@aluno.com"));
-        dao.salva(new Aluno("Aluno2","1223131","aluano2@aluno.com"));
+        for (int i = 0; i <10 ; i++) {
+            dao.salva(new Aluno("Aluno1","1223131","aluano1@aluno.com"));
+            dao.salva(new Aluno("Aluno2","1223131","aluano2@aluno.com"));
+        }
+
 
     }
 
@@ -77,15 +80,20 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add("Remover");
+        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
+
 
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
-        removeAluno(alunoEscolhido);
+        int itemId = item.getItemId();
+        if(itemId == R.id.activity_lista_alunos_menu_remover){
+            AdapterView.AdapterContextMenuInfo menuInfo =
+                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
+            removeAluno(alunoEscolhido);
+        }
+
         return super.onContextItemSelected(item);
     }
     private void configureListenerDeCliqueLongoPorItem(ListView listaDeAlunos) {
